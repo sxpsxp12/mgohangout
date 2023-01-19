@@ -1,6 +1,7 @@
 [ENG](https://github.com/childe/gohangout/blob/master/README-EN.md#input)
 
-Fork By https://github.com/childe/gohangout
+Fork By https://github.com/childe/gohangout进行定制化，如有侵权请联系本人删除。
+
 
 ## 安装
 
