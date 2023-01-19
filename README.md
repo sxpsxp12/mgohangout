@@ -14,6 +14,10 @@ Fork By https://github.com/childe/gohangout
 
 > go get github.com/childe/gohangout
 
+### docker
+
+镜像地址 https://hub.docker.com/repository/docker/rmself/gohangout/general
+
 ### 第三方 Plugin
 
 使用 Plugin 的话，自己编译一下，将 CGO_ENABLED 打开：`CGO_ENABLED=1`
@@ -64,12 +68,14 @@ outputs:
 
 如下例子表示，如果数据通过 if 条件，则此 Add Filter 的计数加 1。
 
+注意，多个 counter 使用同样的配置可能会 Panic
+
 ```
 Add:
     prometheus_counter: 
-        name: gohangout_dot_output
+        name: gohangout_add_filter
         namespace: rack_a
-        help: 'rack_a gohangout dot output counter'
+        help: 'rack_a gohangout add filter counter'
         constLabels:
             env: prod
     if:
@@ -492,10 +498,13 @@ Kafka:
         bootstrap.servers: node1.kafka.corp.com:9092,node2.kafka.corp.com:9092,node3.kafka.corp.com:9092
         flush.interval.ms: "3000"
         metadata.max.age.ms: "10000"
+        # healer.magicbyte: "1"
         # sasl.mechanism: PLAIN
         # sasl.user: admin
         # sasl.password: admin-secret
 ```
+
+healer.magicbyte: "1" 是说写入的Kafka消息以版本1编码，默认是版本0. 版本1会在消息中加入时间戳信息。
 
 ### clickhouse
 
