@@ -1143,6 +1143,15 @@ Uppercase:
         ]
     }
 }
+或
+{
+"data":{
+"filters":[
+        "",
+        ""
+        ]
+    }
+}
 ```
 
 ```azure
@@ -1150,4 +1159,48 @@ Uppercase:
 src: '$.data.filters'
 target: '[data]'
 overwrite: true
+```
+
+### JsonObjectFlat
+
+处理诸如如下形式的json，将json object拍平输出多个event
+
+```azure
+{
+  "data":{
+    "filters":{
+        "h1":"c1",
+        "h2": "c2",
+        "h3": {
+            "t1": "1",
+            "t2": "2"
+        }
+    }
+ }
+}
+```
+
+```azure
+- JsonObjectFlat:
+  src: '$.data.filters'
+  target: '[data]'
+  overwrite: true
+```
+
+输出:
+```azure
+{
+  "data":{
+    "h1":c1
+ }
+}
+...
+
+{
+ "data":{
+    "t1": "1",
+    "t2": "2",
+    "flat_key":"h3"
+ }
+}
 ```

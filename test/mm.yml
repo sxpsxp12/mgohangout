@@ -1,0 +1,34 @@
+inputs:
+  - Stdin:
+      codec: json
+
+filters:
+  - JsonArrayFlat:
+      src: '$.data.filters'
+      target: '[name]'
+      overwrite: true
+  - Add:
+      overwrite: true
+      fields:
+        collect_type: '$.name.collect_type'
+        name_r: '$.name.name'
+        timestamp: '$.cloud_timestamp'
+  - Remove:
+      if:
+      - 'EQ(name_r, nil)'
+      fields: [ 'name_r' ]
+  - Rename:
+      if:
+        - 'Exist(name_r)'
+      fields:
+        name_r: name
+  - Remove:
+      fields: [ 'data' ]
+  - Convert:
+      fields:
+        collect_type:
+          setto_if_nil: ""
+          to: string
+
+outputs:
+  - Stdout: { }
